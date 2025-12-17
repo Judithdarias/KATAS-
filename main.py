@@ -1,21 +1,20 @@
 """
-1 - Crear una funcion que pase de entero <0 y 4000 a romano
-2 - Cualquier otra entrada de error
-3 - Límite 3999
+1- Crear una funcion que pase de entero >0 y <4000 a romano
+2- Que cualquier otra entrada de error
+3- limite 3999
 
-Casos de prueba 
-a - 1994 -> MCMXCIV
-b - 4000 -> RomanNumberError() el valor debe ser menor a 400
-c - "unacadena" -> RomanNumberError () el valor debe ser un entero
+Casos de prueba
+a-1994 -> MCMXCIV
+b-4000 ->RomanNumberError() el valor debe ser menor a 4000
+c-"unacadena" -> RomanNumberError Debe ser un entero
 
-M = 1000
-D = 500
-C = 100
-L = 50
-X = 10
-V = 5
-I = 1
-
+M -> 1000
+D -> 500
+C -> 100
+L -> 50
+X -> 10
+V -> 5
+I ->1
 """
 dic_romano_a_entero = {'M': 1000, 'D': 500, 'C': 100, 'L': 50, 'X': 10, 'V': 5, 'I': 1}
 
@@ -26,22 +25,26 @@ dic_entero_a_romano={
     1000: "M", 2000: "MM", 3000: "MMM"
 }
 
-class RomanNumberError(Exception):
-    pass    
+class RomanNumberError( Exception ):
+    pass
+
 
 def romano_a_entero(romano:str)->int:#'III'
     list_romano = list(romano)#['I','I','I']
     valor_entero=0
     for i in range(0,len(list_romano)):
-        if i == 0:
-            if dic_romano_a_entero.get(list_romano[i]) < dic_romano_a_entero.get(list_romano[i+1]):
-                valor_entero = dic_romano_a_entero.get(list_romano[i+1]) - dic_romano_a_entero.get(list_romano[i])
+        if i != 0:
+            if dic_romano_a_entero.get(list_romano[i-1]) < dic_romano_a_entero.get(list_romano[i]):
+                valor_entero -= dic_romano_a_entero.get(list_romano[i-1])
+                valor_entero += dic_romano_a_entero.get(list_romano[i]) - dic_romano_a_entero.get(list_romano[i-1])
+            else:
+                valor_entero += dic_romano_a_entero.get(list_romano[i])
         else:
-            valor_entero = valor_entero+dic_romano_a_entero.get(list_romano[i])
+            valor_entero += dic_romano_a_entero.get(list_romano[i])
 
     return valor_entero
 
-print(romano_a_entero("IV"))
+print(romano_a_entero("XXXIV"))
 
 def entero_a_romano( numero:int )->str:
     numero = "{:0>4d}".format(numero)
